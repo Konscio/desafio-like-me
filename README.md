@@ -88,6 +88,22 @@ Ejemplo de body:
 }
 ```
 
+### Dar like a un post
+
+```http
+PUT /posts/like/:id
+```
+
+Adiciona likes al post
+
+### Eliminar un post
+
+```http
+DELETE /posts/:id
+```
+
+Elimina el post en base a un id
+
 ## Autor
 
 Sebastián Cabrera
