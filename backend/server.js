@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 
-const { getPosts, agregarPost } = require("./consultas");
+const { getPosts, agregarPost, likePost, deletePost } = require("./consultas");
 
 const app = express();
 
@@ -34,5 +34,41 @@ app.post("/posts", async (req, res) => {
   } catch (error) {
     console.log(error);
     res.status(500).send(error);
+  }
+});
+
+// Sumar likes
+app.put("/posts/like/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const postActualizado = await likePost(id);
+
+    if (!postActualizado) {
+      return res.status(404).json({ message: "Post no encontrado" });
+    }
+
+    res.json(postActualizado);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Error al dar like al post" });
+  }
+});
+
+// Eliminar publicación
+app.delete("/posts/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const postEliminado = await deletePost(id);
+
+    if (!postEliminado) {
+      return res.status(404).json({ message: "Post no encontrado" });
+    }
+
+    res.json({ message: "Post eliminado correctamente" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Error al eliminar el post" });
   }
 });
